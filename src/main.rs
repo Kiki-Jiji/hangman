@@ -19,7 +19,7 @@ impl Game {
         println!("test {}", self.lives.to_string());
     }
 
-    pub fn remove_letters(&mut self) {
+    pub fn remove_letters(&mut self, guess: &str){
     
         let mut hat = String::from("");
         
@@ -32,18 +32,13 @@ impl Game {
             }
             
         }
-        
-        return (hat, guess);
-        
+
+        self.remaining_letters = String::from("");
+        self.remaining_letters.push_str(&hat);
+          
     }
 
-
 }
-
-
-
-
-
 
 fn main() {
 
@@ -65,8 +60,6 @@ fn main() {
 
     while active_game.lives >0 && active_game.lettersGuessed != active_game.hiddenWord {
 
-        active_game.atest();
-
         println!("You have {} lives left", active_game.lives);
         println!("{}", active_game.hiddenWord );
         printMan::print_hangman(active_game.lives);
@@ -77,6 +70,8 @@ fn main() {
 
         let guess = guess_letter();
         
+        active_game.remove_letters(&guess);
+
         // process the guess correct
         if active_game.wordToGuess.contains(&guess) {
 
